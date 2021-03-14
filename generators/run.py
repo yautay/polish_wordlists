@@ -1,7 +1,7 @@
-from generators.dates_generator import DatesGenerator
-from generators.hash_splitter import HashSplitter
-from generators.length_cutter import LengthCutter
-from generators.file_splitter import FileSplitter
+from generators.lib.dates_generator import DatesGenerator
+from generators.lib.hash_splitter import HashSplitter
+from generators.lib.length_cutter import LengthCutter
+from generators.lib.file_splitter import FileSplitter
 import argparse
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
 import datetime
 import numpy as np
-from generators.generator import Generator
+from generators.lib.generator import Generator
 
 
 class DatesGenerator(Generator):
