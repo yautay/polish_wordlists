@@ -1,4 +1,4 @@
-from generators.generator import Generator
+from generators.lib.generator import Generator
 
 
 class HashSplitter(Generator):
