@@ -6,14 +6,17 @@ __description__ = """Generates dates patterns."""
 
 import itertools
 from datetime import date, timedelta
+from base.io import IO
 
-
-class BirthdayGenerator:
-    def __init__(self, first_year: int, last_year: int):
+class BirthdayGenerator(IO):
+    def __init__(self, first_year: int, last_year: int, file):
+        super().__init__(file)
         self.first_year = first_year
         self.last_year = last_year
 
-    def generate_calendar(self):
+    def generate_calendar(self, out="print"):
+        if out != "print" and out != "save":
+            raise Exception("argument {} no acceptable".format(out))
         delta = timedelta(days=1)
         date_min = date(self.first_year, 1, 1)
         date_max = date(self.last_year, 12, 31)
@@ -26,10 +29,17 @@ class BirthdayGenerator:
             combinations = self.clean_list(combinations)
             dates = self.format_to_string(combinations)
             dates = self.clean_list(dates)
-            # TODO zapis do strumienia oraz pliku
-            print(dates)
+            dates = self.remove_doubles(dates)
+            self.out(dates, out)
             date_min += delta
-        return element
+
+    def out(self, array: list, option: str):
+        for element in array:
+            if option == "print":
+                print(element)
+            elif option == "save":
+                self.write_to_file(element)
+
 
     @staticmethod
     def serialize_d_m_y(_date: list):
@@ -99,6 +109,10 @@ class BirthdayGenerator:
         return cleaned_elements
 
     @staticmethod
+    def remove_doubles(array: list):
+        return list(dict.fromkeys(array))
+
+    @staticmethod
     def format_to_string(array: list):
         out = []
         out_w_delimiter = []
@@ -111,5 +125,7 @@ class BirthdayGenerator:
         return result
 
 
-app = BirthdayGenerator(1982, 1983)
-app.generate_calendar()
+start = 2020
+stop = start + 20
+app = BirthdayGenerator(first_year=start, last_year=stop, file="../lists/dates_{}_{}.list".format(start, stop))
+app.generate_calendar("save")
